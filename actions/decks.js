@@ -51,6 +51,7 @@ export function handleSaveDeck(deck) {
             saveDeck(deck)
                 .then((d) => {
                     dispatch(addDeck(d))
+                    return d
                 })
         )
     }

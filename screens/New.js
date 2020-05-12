@@ -6,11 +6,17 @@ import { handleSaveDeck } from '../actions/decks'
 
 const New = (props) => {
     const [name, setName] = useState("")
+    const { navigation } = props
 
     const handleSubmit = () => {
         const inputName = !name ? "Untitled Deck" : name
         props.dispatch(handleSaveDeck(name))
-        props.navigation.navigate('Home')
+            .then((deck) => {
+                navigation.navigate('DeckPage', {
+                    deckId: deck.id,
+                    name: deck.name
+                })
+            })
     }
 
     return (

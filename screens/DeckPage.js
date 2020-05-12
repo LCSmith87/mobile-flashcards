@@ -60,6 +60,10 @@ const DeckPage = (props) => {
                 />
                 <Button
                     title="Start Quiz"
+                    onPress={() => navigation.navigate('QuizPage', {
+                        name: decks.name,
+                        deckId: decks.id,
+                    })}
                 />
             </View>
             <View style={{height: 100, justifyContent: 'flex-end'}}>
