@@ -10,7 +10,7 @@ const New = (props) => {
 
     const handleSubmit = () => {
         const inputName = !name ? "Untitled Deck" : name
-        props.dispatch(handleSaveDeck(name))
+        props.dispatch(handleSaveDeck(inputName))
             .then((deck) => {
                 navigation.navigate('DeckPage', {
                     deckId: deck.id,

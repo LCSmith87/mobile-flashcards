@@ -61,7 +61,7 @@ const QuizPage = (props) => {
         }
     },[allCards])
     return(
-        <View style={{flex: 1, alignItems: 'center', paddingTop: 40}}>
+        <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
             <Text style={{ fontSize: 30}}>Quiz</Text>
             <Text style={{ fontSize: 20, color: "#777", paddingBottom: 20}}>{deck.name}</Text>
             {!deck.cards.length
@@ -91,6 +91,7 @@ const QuizPage = (props) => {
                                 title="Show Answer"
                                 onPress={() => handleShowAnswer(true)}
                             />
+                            <Text style={{color: "#777", marginTop: 10}}>{`${deck.cards.length - allCards.length} questions remaining`}</Text>
                         </View>
                         : null}
                     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
