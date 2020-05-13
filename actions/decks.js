@@ -72,7 +72,10 @@ export function handleAddQuestion(deckId, question) {
 export function handleRemoveDeck(deckId) {
     return (dispatch) => {
         return(
-            dispatch(removeDeck(deckId))
+            remove(deckId)
+                .then(() => {
+                    dispatch(removeDeck(deckId))
+                })
         )
     }
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Text, View, Button, TouchableHighlight } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, View, Button, TouchableHighlight, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import QuestionCard from '../components/QuestionCard'
 import { FontAwesome } from '@expo/vector-icons'
@@ -8,45 +8,93 @@ import { FontAwesome } from '@expo/vector-icons'
 
 const QuizPage = (props) => {
     const deck = props.decks
+    const { navigation } = props
     const [allCards, setAllCards] = useState([])
-    const [answeredCards, setAnsweredCards] = useState([])
     const [correctAnswers, setCorrectAnswers] = useState(0)
     const [currentCard, setCurrentCard] = useState(null)
     const [showAnswer, setShowAnswer] = useState(false)
 
-    const returnCard = (currentCard) => {
-        // Show a random card
+    const returnCard = () => {
+        let r = Math.floor(Math.random() * deck.cards.length)
+        while (allCards.includes(r)) {
+            r = Math.floor(Math.random() * deck.cards.length)
+        }
+        setCurrentCard(r)
     }
 
-    const cards = () => {
-        // Set the card values
+    const handleShowAnswer = (answer) => {
+        setShowAnswer(answer)
     }
-    const handleAnswer = (answer) => {
-        // Set the answers to right or wrong
+    const handleAnswer = (bool) => {
+        if(bool && allCards.length < deck.cards.length) {
+            setCorrectAnswers(correctAnswers + 1)
+        }
+        setShowAnswer(false)
+        setAllCards(allCards => [...allCards, currentCard])
     }
+    const handleRestart = () => {
+        Alert.alert(
+            'Restart Quiz',
+            'Are you sure you would like to restart this quiz? All current progress will be lost.',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+
+                },
+                {
+                    text: 'Restart',
+                    onPress: () => {
+                        setCorrectAnswers(0)
+                        setCurrentCard(null)
+                        setShowAnswer(false)
+                        setAllCards([])
+                    }
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+    useEffect(() => {
+        if(allCards.length < deck.cards.length) {
+            returnCard()
+        }
+    },[allCards])
     return(
         <View style={{flex: 1, alignItems: 'center', paddingTop: 40}}>
             <Text style={{ fontSize: 30}}>Quiz</Text>
-            <Text style={{ fontSize: 20, color: "#777"}}>{deck.name}</Text>
+            <Text style={{ fontSize: 20, color: "#777", paddingBottom: 20}}>{deck.name}</Text>
             {!deck.cards.length
-                ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', width: 200, paddingBottom: 80}}>
+                ? <View style={{justifyContent: 'center', alignItems: 'center', width: 200}}>
                     <Text style={{textAlign: 'center', fontSize: 20, color: "#777"}}>
                         Sorry, you cannot take a quiz because there are no cards in the deck
                     </Text>
                 </View>
-                : <View>
-                    {currentCard
-                        ? <QuestionCard
-                            question={deck.cards[currentCard].question}
-                            answer={deck.cards[currentCard].answer}
-                            showAnswer={showAnswer}
-                          />
+                : allCards.length >= deck.cards.length
+                    ? <View style={{alignItems: 'center', width: 200}}>
+                        <Text style={{textAlign: 'center', fontSize: 28}}>
+                            {`${((correctAnswers / deck.cards.length) * 100).toFixed(2)}%`}
+                        </Text>
+                        <Text style={{textAlign: 'center', fontSize: 20, color: "#777"}}>
+                            {(correctAnswers / deck.cards.length) * 100 > 80 ? "Great job, you know your stuff!" : "Try again, I'm sure you'll do better next time!"}
+                        </Text>
+                      </View>
+                    : <View style={{alignItems: 'center'}}>
+                    {currentCard !== null
+                        ? <View style={{alignItems: 'center'}}>
+                            <QuestionCard
+                                question={deck.cards[currentCard].question}
+                                answer={deck.cards[currentCard].answer}
+                                showAnswer={showAnswer}
+                            />
+                            <Button
+                                title="Show Answer"
+                                onPress={() => handleShowAnswer(true)}
+                            />
+                        </View>
                         : null}
-                    <Button
-                        title="Show Answer"
-                    />
                     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <TouchableHighlight style={{margin: 20}}>
+                        <TouchableHighlight onPress={() => handleAnswer(true)} style={{margin: 20}}>
                             <View style={{alignItems: 'center'}}>
                                 <FontAwesome
                                     name="check"
@@ -56,7 +104,7 @@ const QuizPage = (props) => {
                                 <Text>Correct</Text>
                             </View>
                         </TouchableHighlight>
-                        <TouchableHighlight style={{margin: 20}}>
+                        <TouchableHighlight onPress={() => handleAnswer(false) } style={{margin: 20}}>
                             <View style={{alignItems: 'center'}}>
                                 <FontAwesome
                                     name="times"
@@ -67,13 +115,17 @@ const QuizPage = (props) => {
                             </View>
                         </TouchableHighlight>
                     </View>
-                    <Button
-                        title="Restart Quiz"
-                    />
-                    <Button
-                        title="Back to Deck"
-                    />
                   </View>}
+                  <View style={{flexDirection: 'row', width: 300, justifyContent: 'space-between', paddingTop: 60 }}>
+                        <Button
+                            title="Restart Quiz"
+                            onPress={() => handleRestart()}
+                        />
+                        <Button
+                            title="Back to Deck"
+                            onPress={() => navigation.goBack()}
+                        />
+                    </View>
         </View>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, KeyboardAvoidingView, Button} from 'react-native'
 import styled from 'styled-components'
 import { handleAddQuestion } from '../actions/decks'
 import { connect } from 'react-redux'
@@ -34,35 +34,35 @@ const QuestionPage = (props) => {
     }
 
     return(
-        <View style={{flex: 1, alignItems: 'center', paddingTop: 40}}>
-            <Text style={{fontSize: 28}}>{name}</Text>
-            <Text style={{fontSize: 20, color: '#777'}}>Add a Question</Text>
-                <View style={{paddingTop: 40, paddingBottom: 40, flex: 1, width: 300}}>
-                <View style={{marginBottom: 40}}>
-                    <Label>
-                        What is your question?
-                    </Label>
-                    <Input
-                        onChangeText={text => setQuestion(text)}
-                        value={question}
-                        placeholder="Question"
-                    />
-                </View>
-                <View style={{marginBottom: 40}}>
-                    <Label>
-                        What is the answer?
-                    </Label>
-                    <Input
-                        onChangeText={text => setAnswer(text)}
-                        value={answer}
-                        placeholder="Answer"
-                    />
-                </View>
-                <Button
-                    title="Save"
-                    onPress={handleSubmit}
-                />
-            </View>
+        <View style={{flex: 1, alignItems: 'center'}}>
+                <Text style={{fontSize: 28}}>{name}</Text>
+                <Text style={{fontSize: 20, color: '#777'}}>Add a Question</Text>
+                    <View style={{paddingTop: 40, paddingBottom: 40, flex: 1, width: 300}}>
+                        <View style={{marginBottom: 40}}>
+                            <Label>
+                                What is your question?
+                            </Label>
+                            <Input
+                                onChangeText={text => setQuestion(text)}
+                                value={question}
+                                placeholder="Question"
+                            />
+                        </View>
+                        <View style={{marginBottom: 40}}>
+                            <Label>
+                                What is the answer?
+                            </Label>
+                            <Input
+                                onChangeText={text => setAnswer(text)}
+                                value={answer}
+                                placeholder="Answer"
+                            />
+                        </View>
+                        <Button
+                            title="Save"
+                            onPress={handleSubmit}
+                        />
+                    </View>
         </View>
 
     )

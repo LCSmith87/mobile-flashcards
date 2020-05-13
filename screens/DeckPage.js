@@ -50,21 +50,25 @@ const DeckPage = (props) => {
                     {`${props.decks.cards.length} cards`}
                 </Text>
             </View>
-            <View style={{justifyContent: 'space-between'}}>
-                <Button
-                    title="Add Card"
-                    onPress={() => navigation.navigate('QuestionPage', {
-                        deckId: decks.id,
-                        name: decks.name
-                    })}
-                />
-                <Button
-                    title="Start Quiz"
-                    onPress={() => navigation.navigate('QuizPage', {
-                        name: decks.name,
-                        deckId: decks.id,
-                    })}
-                />
+            <View>
+                <View style={{marginBottom: 10}}>
+                    <Button
+                        title="Add Card"
+                        onPress={() => navigation.navigate('QuestionPage', {
+                            deckId: decks.id,
+                            name: decks.name
+                        })}
+                    />
+                </View>
+                <View>
+                    <Button
+                        title="Start Quiz"
+                        onPress={() => navigation.navigate('QuizPage', {
+                            name: decks.name,
+                            deckId: decks.id,
+                        })}
+                    />
+                </View>
             </View>
             <View style={{height: 100, justifyContent: 'flex-end'}}>
                 <Button
