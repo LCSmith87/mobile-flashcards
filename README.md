@@ -41,9 +41,9 @@ Udacity requires code to follow the following guidelines
 - [x] The New Question view includes a form with fields for a question and answer, and a submit button. Submitting the form correctly adds the question to the deck.
 - [x] The Quiz view starts with a question from the selected deck, displayed along with a button to show the answer. Pressing the 'Show Answer' button displays the answer.
 - [x] Buttons are included to allow the student to mark their guess as 'Correct' or 'Incorrect'
-- [] The view displays the number of questions remaining.
+- [x] The view displays the number of questions remaining.
 - [x] When the last question is answered, a score is displayed. This can be displayed as a percentage of correct answers or just the number of questions answered correctly.
-- [] When the score is displayed, buttons are displayed to either start the quiz over or go back to the Individual Deck view.
+- [x] When the score is displayed, buttons are displayed to either start the quiz over or go back to the Individual Deck view.
 - [x] Both the 'Restart Quiz' and 'Back to Deck' buttons route correctly to their respective views.
 - [x] The New Deck view includes a form for creating a new deck - which should just be an input for the title and a 'Create Deck' button.
 - [x] Pressing the button correctly creates the deck and routes the user to the Individual Deck view for the new deck.

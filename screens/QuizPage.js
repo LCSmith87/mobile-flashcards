@@ -3,6 +3,7 @@ import { Text, View, Button, TouchableHighlight, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import QuestionCard from '../components/QuestionCard'
 import { FontAwesome } from '@expo/vector-icons'
+import { clearLocalNotification, setLocalNotification } from '../utils/notification'
 
 
 
@@ -58,6 +59,9 @@ const QuizPage = (props) => {
     useEffect(() => {
         if(allCards.length < deck.cards.length) {
             returnCard()
+        } else {
+            clearLocalNotification()
+            .then(setLocalNotification)
         }
     },[allCards])
     return(

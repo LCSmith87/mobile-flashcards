@@ -1,7 +1,10 @@
 import { AsyncStorage } from 'react-native'
 
 export const handleInitialLoad = async () => {
-    const keys = await AsyncStorage.getAllKeys()
+    const allKeys = await AsyncStorage.getAllKeys()
+    const keys = allKeys.filter((key) => {
+        return key !== "MobileFlashcards:notifications"
+    })
     const stores = await AsyncStorage.multiGet(keys, (stores) => {
         return stores
     })
